@@ -8,4 +8,4 @@ This template should help get you started developing with Vue 3 in Vite. The tem
 
 
 ## Testing Dashsight in Vue Vite Boilerplate
-[Dashsight.js Issue 9](https://github.com/dashhive/dashsight.js/issues/9)
+[Dashsight.js Issue 10](https://github.com/dashhive/dashsight.js/issues/10)
