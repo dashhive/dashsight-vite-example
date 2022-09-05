@@ -1,34 +1,19 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-
-import Dashsight from 'dashsight'
-//  OR
-// import { create } from 'dashsight'
-
-let dashsightBaseUrl =
-  import.meta.env.INSIGHT_BASE_URL || "https://insight.dash.org";
-
-let dashsight = Dashsight.create({
-  baseUrl: dashsightBaseUrl,
-});
-
-console.log('dashsight', dashsight)
-
-dashsight.getInstantBalance('address').then(function (info) {
-  console.info(`Current balance is: Đ${info.balance}`);
-});
+// import HelloWorld from './components/HelloWorld.vue'
+import GetBalance from './components/GetBalance.vue'
 </script>
 
 <template>
-  <div>
+  <GetBalance />
+  <!-- <div>
     <a href="https://vitejs.dev" target="_blank">
       <img src="/vite.svg" class="logo" alt="Vite logo" />
     </a>
     <a href="https://vuejs.org/" target="_blank">
       <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
     </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+  </div> -->
+  <!-- <HelloWorld msg="Vite + Vue" /> -->
 </template>
 
 <style scoped>
