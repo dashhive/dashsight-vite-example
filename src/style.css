@@ -15,6 +15,10 @@
   -webkit-text-size-adjust: 100%;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -64,6 +68,13 @@ button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
+input {
+  text-align: center;
+  line-height: 2;
+  font-size: 1.5rem;
+  width: 100%;
+  max-width: 34rem;
+}
 
 .card {
   padding: 2em;
@@ -71,8 +82,9 @@ button:focus-visible {
 
 #app {
   max-width: 1280px;
+  width: 100%;
   margin: 0 auto;
-  padding: 2rem;
+  /* padding: 2rem; */
   text-align: center;
 }
 

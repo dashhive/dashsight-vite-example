@@ -14,6 +14,8 @@ let dashsight = Dashsight.create({
 
 console.log('dashsight', dashsight)
 
+let testAddresses = 'XmaroZwvCKjsYQQVdCQP2BuWnnMGxWLCGJ XmCyQ6qARLWXap74QubFMunngoiiA1QgCL XaxrcNUS6MrAfsvXNF2s24eChFVKabU6gP XdaWS6gScUjxbFdA8WSFZbeBK2mpGDr6uc XgfQUxiwo7BnTpwxAqpmVJSJwtJHdRCJd2 Xhn6eTCwW94vhVifhshyTeihvTa7LcatiM XnepcKMViJE3bR4ggFkAfLGgqBSr6EjA8z Xp3pqfnYUYLif4SqWFU3Fuv4hJJQRen1ud Xsa1WM9FbRxqSfBxjfFVjLfQ5zinK5NHio Xw2zuXP3VwoRKMoV7cA9TQpJ5bnbCsw13Q XxrK9XH5L3mGCyirz26RpGpCQcJB3v39Lk'.split(' ')
+
 function getInstantBalance() {
   dashsight.getInstantBalance(address.value).then(function (info) {
     balance.value = info.balance
@@ -48,7 +50,20 @@ watchEffect(
 
 <template>
   <div class="card">
-    <input v-model="address">
+    <input
+      v-model="address"
+      list="test-addresses"
+      autocomplete="off"
+      placeholder="Enter Đash Address"
+    ><br><br>
+
+    <datalist id="test-addresses">
+      <option
+        :value="addr"
+        v-for="(addr, index) in testAddresses"
+        :key="index"
+      />
+    </datalist>
     <button type="button" :disabled="disableButton()" @click="getInstantBalance">Get Balance</button>
   </div>
   <div class="card" v-if="showBalance()">
@@ -58,8 +73,4 @@ watchEffect(
 </template>
 
 <style scoped>
-input {
-  background: #222;
-  color: #888;
-}
 </style>

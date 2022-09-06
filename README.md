@@ -1,11 +1,16 @@
-# Vue 3 + Vite
+# Vue 3 + Vite + Dashsight
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Generated with Vite template like so.
 
-## Recommended IDE Setup
+```sh
+npm create vite@latest vue -- --template vue
+cd vue
+npm install --save dashsight@1.1.0-0
+npm i
+npm run dev
+```
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+Changed HelloWorld.vue component to [GetBalance.vue](./src/components/GetBalance.vue), imported Dashsight into the component.
 
-
-## Testing Dashsight in Vue Vite Boilerplate
+## Testing Dashsight with Vue Vite Boilerplate
 [Dashsight.js Issue 10](https://github.com/dashhive/dashsight.js/issues/10)
