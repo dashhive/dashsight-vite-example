@@ -1,4 +1,4 @@
-# Vue 3 + Vite + Dashsight
+# Dashsight + Vue 3 + Vite
 
 Generated with Vite template like so.
 
