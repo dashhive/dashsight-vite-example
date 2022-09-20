@@ -9,7 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "dashsight": "^1.1.0-0",
+    "crowdnode": "^1.7.0-0",
+    "dashsight": "^1.1.1",
     "vue": "^3.2.37"
   },
   "devDependencies": {
