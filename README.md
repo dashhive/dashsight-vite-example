@@ -1,6 +1,16 @@
 # Dashsight + Vue 3 + Vite
 
-Generated with Vite template like so.
+## Usage
+To test this repository, do the following
+
+```sh
+git clone https://github.com/jojobyte/dashsight-vite-test.git
+cd dashsight-vite-test
+npm install
+npm run dev
+```
+
+### How to generate a similar project with Vite template
 
 ```sh
 npm create vite@latest vue -- --template vue
