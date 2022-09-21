@@ -64,6 +64,14 @@ function getInstantBalance() {
   });
 }
 
+function getTransactions() {
+  dashsight.getTxs(address.value).then(function ({ txs }) {
+    transactions.value = txs.map(({ txid, valueOut, time }) => ({ txid, valueOut, time }))
+    // console.info(`Current balance for "${address.value}" is: Đ${info.balance}`);
+    console.log('getTransactions', transactions.value)
+  });
+}
+
 
 function showCrowdNodeBalance() {
   return address.value !== '' && crowdnodeBalance.value !== '' && crowdnodeBalance.value !== 'Address not found.'
@@ -81,12 +89,14 @@ function disableButton() {
 const address = ref('')
 const balance = ref('')
 const crowdnodeBalance = ref('')
+const transactions = ref([])
 
 watch(
   address,
   (address, prevAddress) => {
     if (address !== prevAddress) {
       balance.value = ''
+      transactions.value = []
     }
   }
 )
@@ -114,12 +124,21 @@ watchEffect(
     </datalist>
     <button type="button" :disabled="disableButton()" @click="getInstantBalance">Get Balance</button>
     <button type="button" :disabled="disableButton()" @click="getCrowdNodeBalances">Get CrowdNode Balances</button>
+    <button type="button" :disabled="disableButton()" @click="getTransactions">Get Transactions</button>
   </div>
   <div class="card" v-if="showBalance()">
     <h3>Address: {{address}}</h3>
     <h3>Current balance: Đ{{balance}}</h3>
     <h3 v-if="showCrowdNodeBalance()">Current CrowdNode balance: Đ{{crowdnodeBalance}}</h3>
     <h3 v-if="showCrowdNodeError()">CrowdNode Error: {{crowdnodeBalance}}</h3>
+  </div>
+  <div class="card" v-if="showBalance()">
+    <ul>
+      <li
+        v-for="({ txid, valueOut, time }, index) in transactions"
+        :key="index"
+      >{{txid}} - {{(new Date(time*1000)).toISOString()}} - Đ{{valueOut}}</li>
+    </ul>
   </div>
 </template>
 
