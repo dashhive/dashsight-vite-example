@@ -2,11 +2,12 @@
 import { ref, watch, watchEffect } from 'vue'
 
 import Dashsight from 'dashsight'
+import * as CrowdNode from 'crowdnode'
 //  OR
 // import { create } from 'dashsight'
 
 let dashsightBaseUrl =
-  import.meta.env.INSIGHT_BASE_URL || "https://insight.dash.org";
+  import.meta.env.INSIGHT_BASE_URL || '/insight';
 
 let dashsight = Dashsight.create({
   baseUrl: dashsightBaseUrl,
@@ -15,7 +16,24 @@ let dashsight = Dashsight.create({
 console.log('dashsight', dashsight)
 
 // Pulled from https://github.com/dashhive/dashsight.js/blob/main/examples/addrs.txt
-let testAddresses = 'XmaroZwvCKjsYQQVdCQP2BuWnnMGxWLCGJ XmCyQ6qARLWXap74QubFMunngoiiA1QgCL XaxrcNUS6MrAfsvXNF2s24eChFVKabU6gP XdaWS6gScUjxbFdA8WSFZbeBK2mpGDr6uc XgfQUxiwo7BnTpwxAqpmVJSJwtJHdRCJd2 Xhn6eTCwW94vhVifhshyTeihvTa7LcatiM XnepcKMViJE3bR4ggFkAfLGgqBSr6EjA8z Xp3pqfnYUYLif4SqWFU3Fuv4hJJQRen1ud Xsa1WM9FbRxqSfBxjfFVjLfQ5zinK5NHio Xw2zuXP3VwoRKMoV7cA9TQpJ5bnbCsw13Q XxrK9XH5L3mGCyirz26RpGpCQcJB3v39Lk'.split(' ')
+let testAddresses = 'XmaroZwvCKjsYQQVdCQP2BuWnnMGxWLCGJ XmCyQ6qARLWXap74QubFMunngoiiA1QgCL XaxrcNUS6MrAfsvXNF2s24eChFVKabU6gP XdaWS6gScUjxbFdA8WSFZbeBK2mpGDr6uc XgfQUxiwo7BnTpwxAqpmVJSJwtJHdRCJd2 Xhn6eTCwW94vhVifhshyTeihvTa7LcatiM XnepcKMViJE3bR4ggFkAfLGgqBSr6EjA8z Xp3pqfnYUYLif4SqWFU3Fuv4hJJQRen1ud Xsa1WM9FbRxqSfBxjfFVjLfQ5zinK5NHio Xw2zuXP3VwoRKMoV7cA9TQpJ5bnbCsw13Q XxrK9XH5L3mGCyirz26RpGpCQcJB3v39Lk'
+  .split(' ')
+
+CrowdNode.init({
+    baseUrl: '/crowdnode',
+    insightBaseUrl: dashsightBaseUrl,
+    knowledgeBaseUrl: '/knowledge'
+});
+
+async function getCrowdNodeBalances() {
+  // for (let addr of testAddresses) {
+    let cnBalance = await CrowdNode.http.GetBalance(
+      address.value
+    );
+    crowdnodeBalance.value = cnBalance.value
+    console.info(`Current CrowdNode balance for "${address.value}" is: Đ${cnBalance.value}`);
+  // }
+}
 
 function getInstantBalance() {
   dashsight.getInstantBalance(address.value).then(function (info) {
@@ -25,6 +43,12 @@ function getInstantBalance() {
 }
 
 
+function showCrowdNodeBalance() {
+  return address.value !== '' && crowdnodeBalance.value !== '' && crowdnodeBalance.value !== 'Address not found.'
+}
+function showCrowdNodeError() {
+  return address.value !== '' && crowdnodeBalance.value === 'Address not found.'
+}
 function showBalance() {
   return address.value !== '' && typeof balance.value !== 'string'
 }
@@ -34,6 +58,7 @@ function disableButton() {
 
 const address = ref('')
 const balance = ref('')
+const crowdnodeBalance = ref('')
 
 watch(
   address,
@@ -66,10 +91,13 @@ watchEffect(
       />
     </datalist>
     <button type="button" :disabled="disableButton()" @click="getInstantBalance">Get Balance</button>
+    <button type="button" :disabled="disableButton()" @click="getCrowdNodeBalances">Get CrowdNode Balances</button>
   </div>
   <div class="card" v-if="showBalance()">
     <h3>Address: {{address}}</h3>
     <h3>Current balance: Đ{{balance}}</h3>
+    <h3 v-if="showCrowdNodeBalance()">Current CrowdNode balance: Đ{{crowdnodeBalance}}</h3>
+    <h3 v-if="showCrowdNodeError()">CrowdNode Error: {{crowdnodeBalance}}</h3>
   </div>
 </template>
 
