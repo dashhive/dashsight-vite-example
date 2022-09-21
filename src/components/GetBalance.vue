@@ -2,15 +2,37 @@
 import { ref, watch, watchEffect } from 'vue'
 
 import Dashsight from 'dashsight'
+import { DashSightWs } from 'dashsight/ws/browser-ws.js'
 import * as CrowdNode from 'crowdnode'
 //  OR
 // import { create } from 'dashsight'
+console.log('DashSightWs', DashSightWs)
 
 let dashsightBaseUrl =
   import.meta.env.INSIGHT_BASE_URL || '/insight';
 
 let dashsight = Dashsight.create({
   baseUrl: dashsightBaseUrl,
+});
+
+async function main() {
+  // ex: inv,dashd/addresstxid
+  // let eventnames = "inv".split(",");
+
+  // TODO pass eventnames
+  await DashSightWs.listen(
+    'https://insight.dash.org',
+    function finder(evname, data) {
+      console.log(evname, data);
+    },
+    { debug: true },
+  );
+}
+
+console.log("Trying...");
+main().catch(function (err) {
+  console.error("Fail:");
+  console.error(err.stack || err);
 });
 
 console.log('dashsight', dashsight)
