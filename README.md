@@ -4,8 +4,8 @@
 To test this repository, do the following
 
 ```sh
-git clone https://github.com/jojobyte/dashsight-vite-test.git
-cd dashsight-vite-test
+git clone https://github.com/dashhive/dashsight-vite-example.git
+cd dashsight-vite-example
 npm install
 npm run dev
 ```
