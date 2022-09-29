@@ -1,4 +1,4 @@
-# Dashsight + Vue 3 + Vite
+# Dashsight + CrowdNode + Vue 3 + Vite
 
 ## Usage
 To test this repository, do the following
