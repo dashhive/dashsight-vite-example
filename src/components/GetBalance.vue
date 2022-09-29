@@ -2,11 +2,11 @@
 import { ref, watch, watchEffect } from 'vue'
 
 import Dashsight from 'dashsight'
-import { DashSightWs } from 'dashsight/ws/browser-ws.js'
+import { DashSocket } from 'dashsight/ws'
 import * as CrowdNode from 'crowdnode'
 //  OR
 // import { create } from 'dashsight'
-console.log('DashSightWs', DashSightWs)
+console.log('DashSocket', DashSocket)
 
 let dashsightBaseUrl =
   import.meta.env.INSIGHT_BASE_URL || '/insight';
@@ -20,7 +20,7 @@ async function main() {
   // let eventnames = "inv".split(",");
 
   // TODO pass eventnames
-  await DashSightWs.listen(
+  await DashSocket.listen(
     'https://insight.dash.org',
     function finder(evname, data) {
       console.log(evname, data);
