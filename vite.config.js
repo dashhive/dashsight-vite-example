@@ -35,11 +35,12 @@ export default defineConfig({
     force: true,
   },
   define: {
-    "global": {},
+    // adding global here breaks `npm run build`
+    // "global": {},
   },
   build: {
     commonjsOptions: {
-      transformMixedEsModules: false,
+      transformMixedEsModules: true,
       esmExternals: true,
     },
   },
