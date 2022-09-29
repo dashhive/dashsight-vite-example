@@ -24,6 +24,7 @@ async function main() {
     'https://insight.dash.org',
     function finder(evname, data) {
       console.log(evname, data);
+      insightStream.value = data
     },
     { debug: true },
   );
@@ -52,8 +53,9 @@ async function getCrowdNodeBalances() {
     let cnBalance = await CrowdNode.http.GetBalance(
       address.value
     );
-    crowdnodeBalance.value = cnBalance.value
-    console.info(`Current CrowdNode balance for "${address.value}" is: Đ${cnBalance.value}`);
+    console.log('CrowdNode GetBalance', cnBalance)
+    crowdnodeBalance.value = cnBalance
+    console.info(`Current CrowdNode balance for "${address.value}" is Đ${cnBalance.TotalBalance} with ${cnBalance.TotalDividend} in dividends.`);
   // }
 }
 
@@ -74,10 +76,10 @@ function getTransactions() {
 
 
 function showCrowdNodeBalance() {
-  return address.value !== '' && crowdnodeBalance.value !== '' && crowdnodeBalance.value !== 'Address not found.'
+  return address.value !== '' && 'TotalBalance' in crowdnodeBalance.value && crowdnodeBalance.value?.value !== 'Address not found.'
 }
 function showCrowdNodeError() {
-  return address.value !== '' && crowdnodeBalance.value === 'Address not found.'
+  return address.value !== '' && crowdnodeBalance.value?.value === 'Address not found.'
 }
 function showBalance() {
   return address.value !== '' && typeof balance.value !== 'string'
@@ -88,7 +90,8 @@ function disableButton() {
 
 const address = ref('')
 const balance = ref('')
-const crowdnodeBalance = ref('')
+const insightStream = ref({})
+const crowdnodeBalance = ref({})
 const transactions = ref([])
 
 watch(
@@ -97,6 +100,7 @@ watch(
     if (address !== prevAddress) {
       balance.value = ''
       transactions.value = []
+      crowdnodeBalance.value = {}
     }
   }
 )
@@ -129,15 +133,25 @@ watchEffect(
   <div class="card" v-if="showBalance()">
     <h3>Address: {{address}}</h3>
     <h3>Current balance: Đ{{balance}}</h3>
-    <h3 v-if="showCrowdNodeBalance()">Current CrowdNode balance: Đ{{crowdnodeBalance}}</h3>
-    <h3 v-if="showCrowdNodeError()">CrowdNode Error: {{crowdnodeBalance}}</h3>
+    <h3 v-if="showCrowdNodeBalance()">Current CrowdNode balance Đ{{crowdnodeBalance.TotalBalance}} with Đ{{crowdnodeBalance.TotalDividend}} in dividends.</h3>
+    <h3 v-if="showCrowdNodeError()">CrowdNode Error: {{crowdnodeBalance.value}}</h3>
+  </div>
+  <div class="card">
+    <h3>DashSocket Stream</h3>
+    <p v-if="typeof insightStream === 'string'">🟩 block {{insightStream}}</p>
+    <p v-else>Transaction {{insightStream.txlock ? '🔒' : '🔓'}} Đ{{insightStream.valueOut}} #{{insightStream.txid}}</p>
   </div>
   <div class="card" v-if="showBalance()">
+    <h3>Transactions</h3>
     <ul>
       <li
         v-for="({ txid, valueOut, time }, index) in transactions"
         :key="index"
-      >{{txid}} - {{(new Date(time*1000)).toISOString()}} - Đ{{valueOut}}</li>
+      >
+        <h2><strong>Đ{{valueOut}}</strong></h2>
+        <em>on {{(new Date(time*1000)).toISOString()}}</em>
+        <p>from #{{txid}}</p>
+      </li>
     </ul>
   </div>
 </template>
