@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "crowdnode": "dashhive/crowdnode.js#browser",
+    "crowdnode": "jojobyte/crowdnode.js#fix/vite-browser-build-require",
     "dashsight": "^1.2.0",
     "vue": "^3.2.40"
   },
