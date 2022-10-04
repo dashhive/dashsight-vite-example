@@ -3,11 +3,13 @@ import { ref, watch, inject, } from 'vue'
 import * as CrowdNode from 'crowdnode'
 
 const DASHSIGHT_BASE_URL = inject('DASHSIGHT_BASE_URL')
+const CROWDNODE_BASE_URL = inject('CROWDNODE_BASE_URL')
+const CROWDNODE_KB_URL = inject('CROWDNODE_KB_URL')
 
 CrowdNode.init({
-    baseUrl: '/crowdnode',
+    baseUrl: CROWDNODE_BASE_URL,
     insightBaseUrl: DASHSIGHT_BASE_URL,
-    knowledgeBaseUrl: '/knowledge'
+    knowledgeBaseUrl: CROWDNODE_KB_URL,
 });
 
 async function getCrowdNodeBalances() {
